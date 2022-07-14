@@ -121,23 +121,25 @@ public class HospitalSetController {
     }
 
     //删除方法
+    //@RequestMapping("{id}")
     @ApiOperation(value = "医院设置删除")
     @DeleteMapping("{id}")
     public R removeById(@PathVariable("id") Long id) {
         boolean remove = hospitalSetService.removeById(id);
         return R.ok();
+        //return findAll();
     }
 
     //查询所有医院设置
     @ApiOperation(value = "医院设置列表")
     @GetMapping("findAll")
     public R findAll() {
-        try {
+        /*try {
             int a = 10 / 0;
         } catch (Exception e) {
             e.printStackTrace();
             throw new YyghException(20001, "出现自定义的异常");
-        }
+        }*/
         List<HospitalSet> list = hospitalSetService.list();
         return R.ok().data("list", list);
     }
