@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +85,8 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     public void importData(MultipartFile file) {
         try {
             InputStream inputStream = file.getInputStream();
+            /*EasyExcel.read(inputStream, DictEeVo.class, new DictListener(baseMapper))
+                    .sheet().doRead();*/
             EasyExcel.read(inputStream, DictEeVo.class, dictListener)
                     .sheet().doRead();
         } catch (IOException e) {

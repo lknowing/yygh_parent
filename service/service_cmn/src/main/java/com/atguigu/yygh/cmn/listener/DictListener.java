@@ -21,6 +21,13 @@ public class DictListener extends AnalysisEventListener<DictEeVo> {
     @Autowired
     private DictMapper dictMapper;
 
+    /*public DictListener() {
+    }
+
+    public DictListener(DictMapper dictMapper) {
+        this.dictMapper = dictMapper;
+    }*/
+
     @Override
     public void invoke(DictEeVo dictEeVo, AnalysisContext context) {
         Dict dict = new Dict();
