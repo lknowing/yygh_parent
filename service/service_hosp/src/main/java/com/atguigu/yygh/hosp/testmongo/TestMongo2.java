@@ -21,6 +21,9 @@ public class TestMongo2 {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PerRepository perRepository;
+
     //SpringData方法规范
     @GetMapping("testMethod2")
     public void testMethod2() {
@@ -102,6 +105,9 @@ public class TestMongo2 {
     public void findById() {
         User user = userRepository.findById("62d7a40161f9f558da014776").get();
         System.out.println("user = " + user);
+        //--------------------------------
+        Per per = perRepository.findById("62d7ee3e07f8d470c20fcf66").get();
+        System.out.println("per = " + per);
     }
 
     //查询所有
@@ -109,6 +115,9 @@ public class TestMongo2 {
     public void findAll() {
         List<User> users = userRepository.findAll();
         users.forEach(System.out::println);
+        //--------------------------------
+        List<Per> perList = perRepository.findAll();
+        perList.forEach(System.out::println);
     }
 
     //新增
