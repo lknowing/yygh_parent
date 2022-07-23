@@ -17,8 +17,19 @@ import java.util.List;
 public interface DictService extends IService<Dict> {
     //根据数据id查询子数据列表
     List<Dict> findChlidData(Long id);
+
     //导出字典数据
     void exportData(HttpServletResponse response);
+
     //导入字典数据
     void importData(MultipartFile file);
+
+    /**
+     * 根据上级编码与值获取数据字典名称
+     *
+     * @param parentDictCode
+     * @param value
+     * @return
+     */
+    String getName(String parentDictCode, String value);
 }

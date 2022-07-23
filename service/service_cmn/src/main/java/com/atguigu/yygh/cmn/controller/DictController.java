@@ -27,6 +27,21 @@ public class DictController {
     @Autowired
     private DictService dictService;
 
+    @ApiOperation(value = "获取数据字典名称(自定义)")
+    @GetMapping(value = "/getName/{parentDictCode}/{value}")
+    public String getName(@PathVariable("parentDictCode") String parentDictCode,
+                          @PathVariable("value") String value) {
+        String name = dictService.getName(parentDictCode, value);
+        return name;
+    }
+
+    @ApiOperation(value = "获取数据字典名称(国标)")
+    @GetMapping(value = "/getName/{value}")
+    public String getName(@PathVariable("value") String value) {
+        String name = dictService.getName("", value);
+        return name;
+    }
+
     @ApiOperation(value = "导入字典数据")
     @PostMapping("importData")
     public R importData(MultipartFile file) {

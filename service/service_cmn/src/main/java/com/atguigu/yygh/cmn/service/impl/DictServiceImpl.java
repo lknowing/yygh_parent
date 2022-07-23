@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -103,5 +104,32 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         return count > 0;
     }
 
+    @Override
+    public String getName(String parentDictCode, String value) {
+        //1.判断parentDictCode是否为空
+        if (StringUtils.isEmpty(parentDictCode)) {
+            //2.国标数据查询
+            Dict dict = baseMapper.selectOne(new QueryWrapper<Dict>()
+                    .eq("value", value));
+            if (dict != null) {
+                return dict.getName();
+            }
+        } else {
+            //3.自定义数据查询
+            Dict parentDict = this.getDictByDictCode(parentDictCode);
+            Dict dict = baseMapper.selectOne(new QueryWrapper<Dict>()
+                    .eq("parent_id", parentDict.getId())
+                    .eq("value", value));
+            if (dict != null) {
+                return dict.getName();
+            }
+        }
+        return "";
+    }
 
+    private Dict getDictByDictCode(String parentDictCode) {
+        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+        wrapper.eq("dict_code", parentDictCode);
+        return baseMapper.selectOne(wrapper);
+    }
 }
