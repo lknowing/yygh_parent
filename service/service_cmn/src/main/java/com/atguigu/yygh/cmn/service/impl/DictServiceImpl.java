@@ -39,7 +39,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     //redis k=dict::selectIndexList v=List<Dict>
     @Cacheable(value = "dict", key = "'selectIndexList'+#id")
     @Override
-    public List<Dict> findChlidData(Long id) {
+    public List<Dict> findChildData(Long id) {
         //1.根据父id查询子级别数据集合
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", id);
@@ -127,6 +127,15 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         return "";
     }
 
+    //根据dictCode获取下级节点
+    @Override
+    public List<Dict> findByDictCode(String dictCode) {
+        Dict dictByDictCode = this.getDictByDictCode(dictCode);
+        List<Dict> dictList = this.findChildData(dictByDictCode.getId());
+        return dictList;
+    }
+
+    //根据字典编码查询父级别的数据
     private Dict getDictByDictCode(String parentDictCode) {
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         wrapper.eq("dict_code", parentDictCode);

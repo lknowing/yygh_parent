@@ -20,4 +20,9 @@ public interface HospitalService {
     Hospital getByHoscode(String hoscode);
 
     Page<Hospital> selectPage(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);
+
+    //更新上线状态
+    void updateStatus(String id, Integer status);
+
+    Map<String, Object> getHospitalById(String id);
 }

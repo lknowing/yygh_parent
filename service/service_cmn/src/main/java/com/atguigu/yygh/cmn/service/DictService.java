@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface DictService extends IService<Dict> {
     //根据数据id查询子数据列表
-    List<Dict> findChlidData(Long id);
+    List<Dict> findChildData(Long id);
 
     //导出字典数据
     void exportData(HttpServletResponse response);
@@ -32,4 +32,11 @@ public interface DictService extends IService<Dict> {
      * @return
      */
     String getName(String parentDictCode, String value);
+
+    /**
+     * 根据dictCode获取下级节点
+     * @param dictCode
+     * @return
+     */
+    List<Dict> findByDictCode(String dictCode);
 }
