@@ -6,13 +6,17 @@ import com.atguigu.yygh.hosp.repository.DepartmentRepository;
 import com.atguigu.yygh.hosp.service.DepartmentService;
 import com.atguigu.yygh.model.hosp.Department;
 import com.atguigu.yygh.vo.hosp.DepartmentQueryVo;
+import com.atguigu.yygh.vo.hosp.DepartmentVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * title:
@@ -82,5 +86,59 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         //3.根据主键id删除
         departmentRepository.deleteById(department.getId());
+    }
+
+    @Override
+    public List<DepartmentVo> findDeptTree(String hoscode) {
+        //1.创建返回的集合对象 List<DepartmentVo>
+        List<DepartmentVo> departmentVoList = new ArrayList<>();
+        //2.根据hoscode查询所有科室信息 List<Department>
+        List<Department> departmentList = departmentRepository.getByHoscode(hoscode);
+        /*DepartmentQueryVo departmentQueryVo = new DepartmentQueryVo();
+        departmentQueryVo.setHoscode(hoscode);
+        Example example = Example.of(departmentQueryVo);
+        List<Department> departmentList = departmentRepository.findAll(example);*/
+
+        //3.实现根据bigcode进行分组
+        //List<Department> => map k:bigcode v:List<Department>(小科室集合)
+        Map<String, List<Department>> departmentMap =
+                departmentList.stream()
+                        .collect(Collectors.groupingBy(Department::getBigcode));
+        //4.遍历map来封装大科室信息
+        for (Map.Entry<String, List<Department>> entry : departmentMap.entrySet()) {
+            //4.1创建大科室对象
+            DepartmentVo bigDepVo = new DepartmentVo();
+            //4.2封装大科室信息
+            bigDepVo.setDepcode(entry.getKey());
+            bigDepVo.setDepname(entry.getValue().get(0).getBigname());
+            //5.封装有关联的小科室信息
+            //5.1创建封装小科室信息的集合
+            List<DepartmentVo> depVoList = new ArrayList<>();
+            List<Department> depList = entry.getValue();
+            //5.2遍历depList进行封装
+            for (Department department : depList) {
+                DepartmentVo depVo = new DepartmentVo();
+                //BeanUtils.copyProperties(department, depVo);
+                depVo.setDepcode(department.getDepcode());
+                depVo.setDepname(department.getDepname());
+                depVoList.add(depVo);
+            }
+            //6.把小科室集合存入大科室对象 DepartmentVo.children
+            bigDepVo.setChildren(depVoList);
+            //7.把大科室对象存入最终返回集合对象 List<DepartmentVo>
+            departmentVoList.add(bigDepVo);
+        }
+        return departmentVoList;
+    }
+
+    @Override
+    public String getDepName(String hoscode, String depcode) {
+        //1.根据hoscode和depcode查询科室信息
+        Department department = departmentRepository.getByHoscodeAndDepcode(hoscode, depcode);
+        //2.判断科室信息
+        if (null == department) {
+            throw new YyghException(20001, "科室编码有误");
+        }
+        return department.getDepname();
     }
 }

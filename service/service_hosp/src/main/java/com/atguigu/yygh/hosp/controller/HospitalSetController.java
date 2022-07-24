@@ -1,7 +1,6 @@
 package com.atguigu.yygh.hosp.controller;
 
 import com.atguigu.yygh.common.R;
-import com.atguigu.yygh.common.handler.YyghException;
 import com.atguigu.yygh.hosp.service.HospitalSetService;
 import com.atguigu.yygh.model.hosp.HospitalSet;
 import com.atguigu.yygh.vo.hosp.HospitalSetQueryVo;
@@ -27,7 +26,7 @@ import java.util.Map;
 @Api(description = "医院设置接口")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
-@CrossOrigin
+//@CrossOrigin
 public class HospitalSetController {
     @Autowired
     private HospitalSetService hospitalSetService;

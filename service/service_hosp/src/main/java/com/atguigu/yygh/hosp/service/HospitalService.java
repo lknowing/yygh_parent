@@ -25,4 +25,6 @@ public interface HospitalService {
     void updateStatus(String id, Integer status);
 
     Map<String, Object> getHospitalById(String id);
+
+    String getHospName(String hoscode);
 }

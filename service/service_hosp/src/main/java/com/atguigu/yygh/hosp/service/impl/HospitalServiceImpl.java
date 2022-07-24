@@ -2,6 +2,7 @@ package com.atguigu.yygh.hosp.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.yygh.cmn.client.DictFeignClient;
+import com.atguigu.yygh.common.handler.YyghException;
 import com.atguigu.yygh.enums.DictEnum;
 import com.atguigu.yygh.hosp.repository.HospitalRepository;
 import com.atguigu.yygh.hosp.service.HospitalService;
@@ -108,6 +109,16 @@ public class HospitalServiceImpl implements HospitalService {
         map.put("hospital", hospital);
         map.put("bookingRule", bookingRule);
         return map;
+    }
+
+    //医院编号获取医院名称
+    @Override
+    public String getHospName(String hoscode) {
+        Hospital hospital = hospitalRepository.getByHoscode(hoscode);
+        if (hospital == null) {
+            throw new YyghException(20001, "医院信息有误");
+        }
+        return hospital.getHosname();
     }
 
     //医院信息字段翻译
