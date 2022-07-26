@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -119,6 +120,27 @@ public class HospitalServiceImpl implements HospitalService {
             throw new YyghException(20001, "医院信息有误");
         }
         return hospital.getHosname();
+    }
+
+    @Override
+    public List<Hospital> findByHosname(String hosname) {
+        List<Hospital> list = hospitalRepository.findByHosnameLike(hosname);
+        return list;
+    }
+
+    //医院预约挂号详情,医院信息
+    @Override
+    public Map<String, Object> getHospByHoscode(String hoscode) {
+        //1.根据hoscode查询医院信息,翻译字段
+        Hospital hospital = this.packHospital(hospitalRepository.getByHoscode(hoscode));
+        //2.判断后取出医院里的预约规则，取出只是复制，要删除旧的
+        BookingRule bookingRule = hospital.getBookingRule();
+        hospital.setBookingRule(null);
+        //3.封装数据返回
+        Map<String, Object> map = new HashMap<>();
+        map.put("hospital", hospital);
+        map.put("bookingRule", bookingRule);
+        return map;
     }
 
     //医院信息字段翻译
