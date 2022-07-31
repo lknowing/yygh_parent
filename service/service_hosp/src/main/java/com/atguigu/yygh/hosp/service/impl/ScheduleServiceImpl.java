@@ -195,7 +195,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
-     * 获取可预约排班数据
+     * 获取可预约的排班数据
      *
      * @param page
      * @param limit
