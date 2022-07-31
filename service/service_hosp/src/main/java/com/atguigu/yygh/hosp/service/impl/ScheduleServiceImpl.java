@@ -288,7 +288,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         //可预约日期规则数据
         result.put("bookingScheduleList", bookingScheduleRuleVoList);
         result.put("total", iPage.getTotal());
-        //其他基础数据
+        //其他基础的数据
         Map<String, String> baseMap = new HashMap<>();
         //医院名称
         baseMap.put("hosname", hospitalService.getHospName(hoscode));
