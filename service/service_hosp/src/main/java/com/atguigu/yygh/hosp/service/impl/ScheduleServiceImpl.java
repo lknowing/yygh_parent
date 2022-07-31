@@ -76,6 +76,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
     }
 
+    /**
+     * 带条件带分页查询排班信息
+     *
+     * @param page
+     * @param limit
+     * @param scheduleQueryVo
+     * @return pageModel
+     */
     @Override
     public Page selectPage(int page, int limit, ScheduleQueryVo scheduleQueryVo) {
         //1.创建分页查询对象
