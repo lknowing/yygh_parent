@@ -33,8 +33,8 @@ public class MsmServiceImpl implements MsmService {
         //2.创建和阿里云对接的客户端对象
         DefaultProfile profile = DefaultProfile
                 .getProfile("default",
-                        "LTAI5tGAKxU9GGLpPGZGofw2",
-                        "Cn1iPIqRZNfrQQkldRScgRCnlJAybO");
+                        "LTAI5tGAKxU9GGLpPGZGofw200",
+                        "Cn1iPIqRZNfrQQkldRScgRCnlJAybO00");
 
         IAcsClient client = new DefaultAcsClient(profile);
         //3.创建请求对象request，塞入必要的参数
