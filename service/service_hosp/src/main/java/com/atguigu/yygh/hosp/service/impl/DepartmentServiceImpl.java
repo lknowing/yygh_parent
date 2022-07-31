@@ -141,4 +141,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return department.getDepname();
     }
+
+    @Override
+    public Department getDepartment(String hoscode, String depcode) {
+        //1.根据hoscode和depcode查询科室信息
+        Department department =
+                departmentRepository.getByHoscodeAndDepcode(hoscode, depcode);
+        return department;
+    }
 }

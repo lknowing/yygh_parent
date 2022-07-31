@@ -1,5 +1,6 @@
 package com.atguigu.yygh.hosp.service;
 
+import com.atguigu.yygh.model.hosp.Department;
 import com.atguigu.yygh.vo.hosp.DepartmentQueryVo;
 import com.atguigu.yygh.vo.hosp.DepartmentVo;
 import org.springframework.data.domain.Page;
@@ -56,4 +57,7 @@ public interface DepartmentService {
      * @return
      */
     String getDepName(String hoscode, String depcode);
+
+    //根据hoscode和depcode查询科室信息
+    Department getDepartment(String hoscode, String depcode);
 }
