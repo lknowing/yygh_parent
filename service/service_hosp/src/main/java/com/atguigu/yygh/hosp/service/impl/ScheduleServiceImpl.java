@@ -160,7 +160,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             String dayOfWeek = this.getDayOfWeek(new DateTime(workDate));
             bookingScheduleRuleVo.setDayOfWeek(dayOfWeek);
         }
-        //获取医院名称
+        //获取医院的名称
         String hosName = hospitalService.getHospName(hoscode);
         Map<String, String> baseMap = new HashMap<>();
         baseMap.put("hosname", hosName);
